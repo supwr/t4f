@@ -25,16 +25,5 @@ Outros requisitos:
 
 ### Database
 
-Criar o banco de dados:
+Para criar o banco de dados basta executar no mysql o arquivo **t4f.sql** que se encontra na raiz do projeto. 
 
-```
-CREATE DATABASE t4f DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci
-```
-
-```
-create table `show` (id int not null auto_increment, name varchar(225) default null, genre_id int default null, active tinyint(1) default 1, primary key(id));
-```
-
-```
-create table `artist` (id int not null auto_increment, name varchar(225) default null, genre_id int default null, active tinyint(1) default 1, primary key(id));
-```
