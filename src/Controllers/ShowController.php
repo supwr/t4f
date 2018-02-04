@@ -2,12 +2,10 @@
 
 namespace Controllers;
 
-use Entities\Country;
 use Symfony\Component\HttpFoundation\Request;
 use Silex\Application;
 use Silex\Api\ControllerProviderInterface;
 use Symfony\Component\HttpFoundation\Response;
-use Services\ExportCSVFile;
 
 class ShowController implements ControllerProviderInterface
 {
@@ -18,6 +16,7 @@ class ShowController implements ControllerProviderInterface
         $factory = $app["controllers_factory"];
 
         $factory->get("/", "Controllers\ShowController::index");
+        $factory->post("/", "Controllers\ShowController::index");
        
         return $factory;
 
@@ -25,8 +24,14 @@ class ShowController implements ControllerProviderInterface
 
     public function index(Application $app)
     {
+        $shows = $app['show']->getShows();
 
-        return $app->json(array("message" => "Shows endpoint."), 200);
+        return $app->json(array("shows" => $shows), 200);
+    }
+
+    public function post(Application $app)
+    {
+        return ;
     }
 
 }

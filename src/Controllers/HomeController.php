@@ -2,12 +2,10 @@
 
 namespace Controllers;
 
-use Entities\Country;
 use Symfony\Component\HttpFoundation\Request;
 use Silex\Application;
 use Silex\Api\ControllerProviderInterface;
 use Symfony\Component\HttpFoundation\Response;
-use Services\ExportCSVFile;
 
 class HomeController implements ControllerProviderInterface
 {
@@ -26,7 +24,14 @@ class HomeController implements ControllerProviderInterface
     public function index(Application $app)
     {
 
-        return $app->json(array("message" => "Home endpoint."), 200);
+        $artists = $app['orm.em']->getRepository("Entities\Artist")->findBy(array(),array("name" => "ASC"));
+        $return = array();
+
+        foreach($artists as $artist){
+            array_push($return, array("name" => $artist->getName(), "genre" => $artist->getGenre()->getName()));
+        }
+
+        return $app->json(array("artistas" => $return), 200);
     }
 
 }

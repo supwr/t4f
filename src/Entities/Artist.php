@@ -14,10 +14,76 @@ class Artist
     /** @name @Column(type="string") **/
     private $name;
 
-    /** @genre_id @Column(type="integer") **/
-    private $genre_id;
+    /**
+     * @ManyToOne(targetEntity="Genre")
+     * @JoinColumn(name="genre_id", referencedColumnName="id")
+     */
+    private $genre;
+
 
     /** @name @Column(type="boolean") **/
     private $active;
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param mixed $name
+     * @return Artist
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getActive()
+    {
+        return $this->active;
+    }
+
+    /**
+     * @param mixed $active
+     * @return Artist
+     */
+    public function setActive($active)
+    {
+        $this->active = $active;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getGenre()
+    {
+        return $this->genre;
+    }
+
+    /**
+     * @param mixed $genre
+     * @return Artist
+     */
+    public function setGenre($genre)
+    {
+        $this->genre = $genre;
+        return $this;
+    }
 
 }

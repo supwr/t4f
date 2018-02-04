@@ -15,6 +15,50 @@ class Genre
     private $name;
 
     /** @name @Column(type="boolean") **/
-    private $active;    
+    private $active;
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param mixed $name
+     * @return Genre
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getActive()
+    {
+        return $this->active;
+    }
+
+    /**
+     * @param mixed $active
+     * @return Genre
+     */
+    public function setActive($active)
+    {
+        $this->active = $active;
+        return $this;
+    }
 
 }
