@@ -2,6 +2,7 @@
 
 namespace Controllers;
 
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Silex\Application;
 use Silex\Api\ControllerProviderInterface;
@@ -13,25 +14,25 @@ class ShowController implements ControllerProviderInterface
     public function connect(Application $app)
     {
 
-        $factory = $app["controllers_factory"];
+        $shows = $app["controllers_factory"];
 
-        $factory->get("/", "Controllers\ShowController::index");
-        $factory->post("/", "Controllers\ShowController::index");
-       
-        return $factory;
+        $shows->get('/{id}', function (Request $request, $id) use ($app) {
+            $shows = $app['show.service']->getShows($id);
 
-    }
+            return $app->json($shows, 200);
+        });
 
-    public function index(Application $app)
-    {
-        $shows = $app['show']->getShows();
+        $shows->post('/', function (Request $request) use ($app) {
+            $data = (object) $request->request->all();
+            $show = $app['show.service']->createShow($data);
 
-        return $app->json(array("shows" => $shows), 200);
-    }
+            $shows = $app['show.service']->getShows($show->getId());
 
-    public function post(Application $app)
-    {
-        return ;
+            return $app->json($shows, 201);
+        });
+
+        return $shows;
+
     }
 
 }

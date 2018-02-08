@@ -8,7 +8,7 @@ use Silex\Provider\HttpFragmentServiceProvider;
 use Dflydev\Provider\DoctrineOrm\DoctrineOrmServiceProvider;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\ParameterBag;
-use Services\Show;
+use Services\ShowService;
 
 $app = new Application();
 $app->register(new ServiceControllerServiceProvider());
@@ -23,8 +23,9 @@ $app->before(function (Request $request) {
     }
 });
 
-$app['show'] = function ($app) {
-    return new Show($app["orm.em"]);
+
+$app['show.service'] = function ($app) {
+    return new ShowService($app["orm.em"]);
 };
 
 $app->register(new Silex\Provider\DoctrineServiceProvider, array(
