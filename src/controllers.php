@@ -12,6 +12,8 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 // Controllers
 $app->mount('/shows', new Controllers\ShowController());
 $app->mount('/tickets', new Controllers\TicketController());
+$app->mount('/events', new Controllers\EventController());
+$app->mount('/venues', new Controllers\VenueController());
 
 $app->error(function (\Exception $e, Request $request, $code) use ($app) {
     $error = array("msg" => $e->getMessage(), 'status' => $code);

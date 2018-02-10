@@ -9,6 +9,8 @@ use Dflydev\Provider\DoctrineOrm\DoctrineOrmServiceProvider;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Services\ShowService;
+use Services\EventService;
+use Services\VenueService;
 
 $app = new Application();
 $app->register(new ServiceControllerServiceProvider());
@@ -26,6 +28,14 @@ $app->before(function (Request $request) {
 
 $app['show.service'] = function ($app) {
     return new ShowService($app["orm.em"]);
+};
+
+$app['event.service'] = function ($app) {
+    return new EventService($app["orm.em"]);
+};
+
+$app['venue.service'] = function ($app) {
+    return new VenueService($app["orm.em"]);
 };
 
 $app->register(new Silex\Provider\DoctrineServiceProvider, array(

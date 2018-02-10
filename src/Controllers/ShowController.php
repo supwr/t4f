@@ -16,9 +16,18 @@ class ShowController implements ControllerProviderInterface
 
         $shows = $app["controllers_factory"];
 
-        $shows->get('/{id}', function (Request $request, $id) use ($app) {
+        $getShows = function ($id = null) use ($app){
             $shows = $app['show.service']->getShows($id);
+            return $shows;
+        };
 
+        $shows->get('/', function (Request $request) use ($app, $getShows) {
+            $shows = $getShows();
+            return $app->json($shows, 200);
+        });
+
+        $shows->get('/{id}', function (Request $request, $id = null) use ($app, $getShows) {
+            $shows = $getShows($id);
             return $app->json($shows, 200);
         });
 

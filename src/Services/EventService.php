@@ -20,8 +20,8 @@ class EventService
         $event = new Event();
         $event->setShow($this->em->getRepository('Entities\Show')->findOneBy(array("id" => $data->show)));
         $event->setVenue($this->em->getRepository('Entities\Venue')->findOneBy(array("id" => $data->venue)));
-        $event->setEventDate($data->event_date);
-        $event->setSalesStartDate($data->sales_start_date);
+        $event->setEventDate(new \DateTime($data->event_date));
+        $event->setSalesStartDate(new \DateTime($data->sales_start_date));
         $event->setActive(1);
 
         $this->em->persist($event);
@@ -32,7 +32,7 @@ class EventService
         return $event;
     }
 
-    public function getEvent($id)
+    public function getEvents($id)
     {
         $eventsQuery = $this->em->createQueryBuilder()
             ->select('e.id', 'v.name', 's.name as show_name')
