@@ -1,0 +1,4 @@
+name: T4F Test Migration
+migrations_namespace: Migrations
+table_name: t4f_migrations
+migrations_directory: src/Migrations

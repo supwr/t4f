@@ -6,7 +6,7 @@ use Doctrine\ORM\Tools\Setup;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\Console\ConsoleRunner;
 
-$paths = array('src/entities/');
+$paths = array('src/Entities/');
 $isDevMode = false;
 
 // the connection configuration
@@ -22,4 +22,4 @@ $config = Setup::createAnnotationMetadataConfiguration($paths, $isDevMode);
 // replace with mechanism to retrieve EntityManager in your app
 $entityManager = EntityManager::create($dbParams, $config);
 
-return ConsoleRunner::createHelperSet($entityManager);
+$helperSet = ConsoleRunner::createHelperSet($entityManager);

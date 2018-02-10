@@ -12,12 +12,6 @@ class Event
     private $id;
 
     /**
-     * @ManyToOne(targetEntity="Artist")
-     * @JoinColumn(name="artist_id", referencedColumnName="id")
-     */
-    private $artist;
-
-    /**
      * @ManyToOne(targetEntity="Show")
      * @JoinColumn(name="show_id", referencedColumnName="id")
      */
@@ -97,24 +91,6 @@ class Event
     public function setActive($active)
     {
         $this->active = $active;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getArtist()
-    {
-        return $this->artist;
-    }
-
-    /**
-     * @param mixed $artist
-     * @return Event
-     */
-    public function setArtist($artist)
-    {
-        $this->artist = $artist;
         return $this;
     }
 

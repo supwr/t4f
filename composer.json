@@ -21,7 +21,9 @@
         "symfony/twig-bridge": "~3.2",
         "symfony/validator": "~2.8|3.0.*",
         "doctrine/dbal": "~2.2",
-        "dflydev/doctrine-orm-service-provider": "^2.0"
+        "dflydev/doctrine-orm-service-provider": "^2.0",
+        "jdesrosiers/silex-cors-provider": "^1.5",
+        "doctrine/migrations": "^1.2.2"
     },
     "autoload": {
         "psr-0": { "": "src/" },

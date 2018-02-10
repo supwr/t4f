@@ -17,7 +17,7 @@ class EventTicket
      */
     private $ticket;
 
-    /** @price @Column(type="decimal") **/
+    /** @price @Column(type="float", precision=10, scale=2) **/
     private $price;
 
     /**

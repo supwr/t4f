@@ -5,7 +5,6 @@ namespace Services;
 use \Entities\Show;
 use \Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Query\Expr;
-use MyProject\Proxies\__CG__\OtherProject\Proxies\__CG__\stdClass;
 
 class ShowService
 {

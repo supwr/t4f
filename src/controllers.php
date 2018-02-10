@@ -10,7 +10,6 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 
 // Controllers
-$app->mount('/', new Controllers\HomeController());
 $app->mount('/shows', new Controllers\ShowController());
 $app->mount('/tickets', new Controllers\TicketController());
 
