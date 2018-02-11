@@ -47,6 +47,12 @@ class ShowController implements ControllerProviderInterface
             return $app->json($shows, 201);
         });
 
+        $shows->delete('/{id}', function (Request $request, $id) use ($app) {
+            $app['show.service']->deleteShow($id);
+
+            return $app->json(array(), 204);
+        });
+
         return $shows;
 
     }

@@ -61,9 +61,43 @@ class ShowPhotoService
         $showPhoto = $showPhotoQuery->getQuery()->getResult();
 
         return $showPhoto;
-
     }
 
+    public function getPhotoByShow($show_id)
+    {
+        $showPhotoQuery = $this->em->createQueryBuilder()
+            ->select("sp.id", "sp.file_name", "sp.file_size", "CONCAT(:images_dir, sp.file_name) as url", "s.name as show_name")
+            ->from('Entities\ShowPhoto', 'sp')
+            ->leftJoin('Entities\Show', 's', Expr\Join::WITH, 's.id = sp.show')
+            ->where('s.id = :id')
+            ->setParameter("id", $show_id)
+            ->setParameter("images_dir", self::$IMAGES_WEB_PATH);
+
+        $showPhoto = $showPhotoQuery->getQuery()->getResult();
+
+        return $showPhoto;
+    }
+
+    public function deleteShowPhoto($id)
+    {
+        if(! intval($id)){
+            throw new \Exception("Oops, an error was found. Check if you're sending the right photo id");
+        }
+
+        $showPhoto = $this->em->getRepository('Entities\ShowPhoto')->find($id);
+
+        if(is_null($showPhoto)){
+            throw new \Exception("Photo not found");
+        }
+
+        $file_name = $showPhoto->getFileName();
+
+        $this->em->remove($showPhoto);
+        $this->em->flush();
+        $this->em->clear();
+
+        unlink(self::$IMAGES_DIR.$file_name);
+    }
 }
 
 ?>

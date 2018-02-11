@@ -31,6 +31,12 @@ class EventController implements ControllerProviderInterface
             return $app->json($events, 201);
         });
 
+        $events->delete('/{id}', function (Request $request, $id) use ($app) {
+            $app['event.service']->deleteEvent($id);
+
+            return $app->json(array(), 204);
+        });
+
         return $events;
 
     }

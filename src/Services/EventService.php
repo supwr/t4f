@@ -35,7 +35,7 @@ class EventService
     public function getEvents($id)
     {
         $eventsQuery = $this->em->createQueryBuilder()
-            ->select('e.id', 'v.name', 's.name as show_name')
+            ->select('e.id', 'v.name', 'e.event_date', 'e.sales_start_date','s.name as show_name')
             ->from('Entities\Event', 'e')
             ->leftJoin('Entities\Show', 's', Expr\Join::WITH, 's.id = e.show')
             ->leftJoin('Entities\Venue', 'v', Expr\Join::WITH, 'v.id = e.venue')
@@ -60,6 +60,39 @@ class EventService
         $sectors = $sectorsQuery->getQuery()->getResult();
 
         return $sectors;
+    }
+
+    public function getEventsByShow($show_id)
+    {
+        $eventsQuery = $this->em->createQueryBuilder()
+            ->select('e.id', 'v.name', 'e.event_date', 'e.sales_start_date')
+            ->from('Entities\Event', 'e')
+            ->leftJoin('Entities\Venue', 'v', Expr\Join::WITH, 'v.id = e.venue')
+            ->where('e.active = 1')
+            ->andWhere('e.show = :id')->setParameter("id", $show_id);
+
+        $events = $eventsQuery->getQuery()->getResult();
+
+        return $events;
+    }
+
+    public function deleteEvent($id)
+    {
+        if(! intval($id)){
+            throw new \Exception("Oops, an error was found. Check if you're sending the right event id");
+        }
+
+        $event = $this->em->getRepository('Entities\Event')->find($id);
+
+        if(is_null($event)){
+            throw new \Exception("Event not found");
+        }
+
+        $event->setActive(0);
+        $this->em->persist($event);
+
+        $this->em->flush();
+        $this->em->clear();
     }
 
 }

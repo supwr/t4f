@@ -7,6 +7,7 @@ use \Entities\ShowPhoto;
 use \Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Query\Expr;
 use Symfony\Component\HttpFoundation\Request;
+use Services\EventService;
 
 class ShowService
 {
@@ -36,6 +37,9 @@ class ShowService
 
     public function getShows($id = null)
     {
+        $event = new EventService($this->em);
+        $photos = new ShowPhotoService($this->em);
+
         $showsQuery = $this->em->createQueryBuilder()
             ->select('s.id', 's.name', 'g.name as genre_name')
             ->from('Entities\Show', 's')
@@ -48,7 +52,31 @@ class ShowService
 
         $shows = $showsQuery->getQuery()->getResult();
 
+        foreach($shows as &$s){
+            $s['events'] = $event->getEventsByShow($s['id']);
+            $s['photos'] = $photos->getPhotoByShow($s['id']);
+        }
+
         return $shows;
+    }
+
+    public function deleteShow($id)
+    {
+        if(! intval($id)){
+            throw new \Exception("Oops, an error was found. Check if you're sending the right show id");
+        }
+
+        $show = $this->em->getRepository('Entities\Show')->find($id);
+
+        if(is_null($show)){
+            throw new \Exception("Show not found");
+        }
+
+        $show->setActive(0);
+        $this->em->persist($show);
+
+        $this->em->flush();
+        $this->em->clear();
     }
 
 }
