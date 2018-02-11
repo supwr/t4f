@@ -31,6 +31,13 @@ class ShowController implements ControllerProviderInterface
             return $app->json($shows, 200);
         });
 
+        $shows->post('/{id}/upload', function (Request $request, $id) use ($app){
+            $fileUpload = $app['show.photo.service']->uploadShowPhoto($request, $id);
+
+            $file = $app['show.photo.service']->getShowPhoto($fileUpload->getId());
+            return $app->json($file, 201);
+        });
+
         $shows->post('/', function (Request $request) use ($app) {
             $data = (object) $request->request->all();
             $show = $app['show.service']->createShow($data);
