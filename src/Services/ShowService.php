@@ -7,7 +7,6 @@ use \Entities\ShowPhoto;
 use \Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Query\Expr;
 use Symfony\Component\HttpFoundation\Request;
-use Services\EventService;
 
 class ShowService
 {
@@ -25,6 +24,9 @@ class ShowService
         $show = new Show();
         $show->setName($data->name);
         $show->setGenre($this->em->getRepository('Entities\Genre')->findOneBy(array("id" => $data->genre)));
+        $show->setVenue($this->em->getRepository('Entities\Venue')->findOneBy(array("id" => $data->venue)));
+        $show->setShowDate(new \DateTime($data->event_date));
+        $show->setSalesStartDate(new \DateTime($data->sales_start_date));
         $show->setActive(1);
 
         $this->em->persist($show);
@@ -41,9 +43,10 @@ class ShowService
         $photos = new ShowPhotoService($this->em);
 
         $showsQuery = $this->em->createQueryBuilder()
-            ->select('s.id', 's.name', 'g.name as genre_name')
+            ->select('s.id', 's.name', 'g.name as genre_name','v.name as venue_name', 'v.id as venue_id','s.show_date', 's.sales_start_date')
             ->from('Entities\Show', 's')
             ->leftJoin('Entities\Genre', 'g', Expr\Join::WITH, 'g.id = s.genre')
+            ->leftJoin('Entities\Venue', 'v', Expr\Join::WITH, 'v.id = s.venue')
             ->where('s.active = 1');
 
         if($id){
@@ -53,7 +56,6 @@ class ShowService
         $shows = $showsQuery->getQuery()->getResult();
 
         foreach($shows as &$s){
-            $s['events'] = $event->getEventsByShow($s['id']);
             $s['photos'] = $photos->getPhotoByShow($s['id']);
         }
 

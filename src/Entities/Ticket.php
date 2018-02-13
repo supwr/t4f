@@ -3,9 +3,9 @@
 namespace Entities;
 
 /**
- * @Entity @Table(name="ticket")
+ * @Entity @Table(name="show_ticket")
  **/
-class Ticket
+class ShowTicket
 {
 
     /** @id @Column(type="integer") @GeneratedValue **/
@@ -14,11 +14,20 @@ class Ticket
     /** @name @Column(type="string") **/
     private $name;
 
-    /** @description @Column(type="text") **/
-    private $description;
+    /**
+     * @ManyToOne(targetEntity="Show")
+     * @JoinColumn(name="show_id", referencedColumnName="id")
+     */
+    private $show;
 
-    /** @active @Column(type="boolean") **/
-    private $active;
+    /** @quantity @Column(type="integer") **/
+    private $quantity;
+
+    /** @price @Column(type="float", precision=10, scale=2) **/
+    private $price;
+
+    /** @service_fee @Column(type="float", precision=10, scale=2) **/
+    private $service_fee;
 
     /**
      * @return mixed
@@ -38,7 +47,7 @@ class Ticket
 
     /**
      * @param mixed $name
-     * @return Ticket
+     * @return ShowTicket
      */
     public function setName($name)
     {
@@ -49,37 +58,72 @@ class Ticket
     /**
      * @return mixed
      */
-    public function getDescription()
+    public function getQuantity()
     {
-        return $this->description;
+        return $this->quantity;
     }
 
     /**
-     * @param mixed $description
-     * @return Ticket
+     * @param mixed $quantity
+     * @return ShowTicket
      */
-    public function setDescription($description)
+    public function setQuantity($quantity)
     {
-        $this->description = $description;
+        $this->quantity = $quantity;
         return $this;
     }
 
     /**
      * @return mixed
      */
-    public function getActive()
+    public function getShow()
     {
-        return $this->active;
+        return $this->show;
     }
 
     /**
-     * @param mixed $active
-     * @return Ticket
+     * @param mixed $show
+     * @return ShowTicket
      */
-    public function setActive($active)
+    public function setShow($show)
     {
-        $this->active = $active;
+        $this->show = $show;
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getPrice()
+    {
+        return $this->price;
+    }
+
+    /**
+     * @param mixed $price
+     * @return ShowTicket
+     */
+    public function setPrice($price)
+    {
+        $this->price = $price;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getServiceFee()
+    {
+        return $this->service_fee;
+    }
+
+    /**
+     * @param mixed $service_fee
+     * @return ShowTicket
+     */
+    public function setServiceFee($service_fee)
+    {
+        $this->service_fee = $service_fee;
+        return $this;
+    }
 }

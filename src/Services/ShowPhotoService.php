@@ -22,7 +22,11 @@ class ShowPhotoService
 
     public function uploadShowPhoto(Request $request, $show)
     {
-        $file = $request->files->get('photo')  ;
+        $file = $request->files->get('photo');
+
+        if(count($this->getPhotoByFileName($file->getClientOriginalName()))){
+            throw new \Exception("There's already a file with this name. Try a different one.");
+        }
 
         if(is_null($file)){
             throw new \Exception("No photo found");
@@ -31,7 +35,7 @@ class ShowPhotoService
         try{
             $file->move(self::$IMAGES_DIR, $file->getClientOriginalName());
         }catch (\Exception $e){
-            throw new \Exception("Ooops. An error occured while uploading image");
+            throw new \Exception("Ooops. An error occured while uploading image.");
         }
 
         $photo = new ShowPhoto();
@@ -78,10 +82,25 @@ class ShowPhotoService
         return $showPhoto;
     }
 
+    public function getPhotoByFileName($file_name)
+    {
+        $showPhotoQuery = $this->em->createQueryBuilder()
+            ->select("sp.id", "sp.file_name", "sp.file_size", "CONCAT(:images_dir, sp.file_name) as url", "s.name as show_name")
+            ->from('Entities\ShowPhoto', 'sp')
+            ->leftJoin('Entities\Show', 's', Expr\Join::WITH, 's.id = sp.show')
+            ->where('sp.file_name = :file_name')
+            ->setParameter("file_name", $file_name)
+            ->setParameter("images_dir", self::$IMAGES_WEB_PATH);
+
+        $showPhoto = $showPhotoQuery->getQuery()->getResult();
+
+        return $showPhoto;
+    }
+
     public function deleteShowPhoto($id)
     {
         if(! intval($id)){
-            throw new \Exception("Oops, an error was found. Check if you're sending the right photo id");
+            throw new \Exception("Oops, an error was found. Check if you're sending the right photo id.");
         }
 
         $showPhoto = $this->em->getRepository('Entities\ShowPhoto')->find($id);

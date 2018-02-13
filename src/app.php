@@ -9,7 +9,6 @@ use Dflydev\Provider\DoctrineOrm\DoctrineOrmServiceProvider;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Services\ShowService;
-use Services\EventService;
 use Services\VenueService;
 use Services\ShowPhotoService;
 
@@ -33,10 +32,6 @@ $app['show.service'] = function ($app) {
 
 $app['show.photo.service'] = function ($app) {
     return new ShowPhotoService($app["orm.em"]);
-};
-
-$app['event.service'] = function ($app) {
-    return new EventService($app["orm.em"]);
 };
 
 $app['venue.service'] = function ($app) {
