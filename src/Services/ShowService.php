@@ -3,7 +3,6 @@
 namespace Services;
 
 use \Entities\Show;
-use \Entities\ShowPhoto;
 use \Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Query\Expr;
 use Symfony\Component\HttpFoundation\Request;
@@ -11,8 +10,6 @@ use Symfony\Component\HttpFoundation\Request;
 class ShowService
 {
     private $em;
-
-    public static $IMAGES_DIR = __DIR__.'/../../web/images/';
 
     public function __construct(EntityManager $em)
     {

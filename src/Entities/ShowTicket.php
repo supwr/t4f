@@ -29,6 +29,9 @@ class ShowTicket
     /** @service_fee @Column(type="float", precision=10, scale=2) **/
     private $service_fee;
 
+    /** @active @Column(type="boolean") **/
+    private $active;
+
     /**
      * @return mixed
      */
@@ -126,4 +129,23 @@ class ShowTicket
         $this->service_fee = $service_fee;
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getActive()
+    {
+        return $this->active;
+    }
+
+    /**
+     * @param mixed $active
+     * @return Ticket
+     */
+    public function setActive($active)
+    {
+        $this->active = $active;
+        return $this;
+    }
+
 }
