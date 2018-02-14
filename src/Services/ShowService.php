@@ -34,10 +34,28 @@ class ShowService
         return $show;
     }
 
+    public function updateShow($id, $data)
+    {
+
+        $showsQueryBuilder = $this->em->createQueryBuilder();
+        $showsQueryBuilder->update('Entities\Show', 's');
+
+        foreach ($data as $k => $v){
+            $field = sprintf("s.%s", $k);
+            $showsQueryBuilder->set($field, $showsQueryBuilder->expr()->literal($v));
+        }
+
+        $showsQueryBuilder->where('s.id = :id')->setParameter('id', $id);
+
+        $showsQueryBuilder->getQuery()->execute();
+
+    }
+
+
     public function getShows($id = null)
     {
-        $event = new EventService($this->em);
         $photos = new ShowPhotoService($this->em);
+        $showTickets = new ShowTicketService($this->em);
 
         $showsQuery = $this->em->createQueryBuilder()
             ->select('s.id', 's.name', 'g.name as genre_name','v.name as venue_name', 'v.id as venue_id','s.show_date', 's.sales_start_date')
@@ -54,6 +72,7 @@ class ShowService
 
         foreach($shows as &$s){
             $s['photos'] = $photos->getPhotoByShow($s['id']);
+            $s['tickets'] = $showTickets->getShowTicketByShow($s['id']);
         }
 
         return $shows;

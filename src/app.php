@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\ParameterBag;
 use Services\ShowService;
 use Services\VenueService;
 use Services\ShowPhotoService;
+use Services\ShowTicketService;
 
 $app = new Application();
 $app->register(new ServiceControllerServiceProvider());
@@ -32,6 +33,10 @@ $app['show.service'] = function ($app) {
 
 $app['show.photo.service'] = function ($app) {
     return new ShowPhotoService($app["orm.em"]);
+};
+
+$app['show.ticket.service'] = function ($app) {
+    return new ShowTicketService($app["orm.em"]);
 };
 
 $app['venue.service'] = function ($app) {

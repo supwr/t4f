@@ -38,15 +38,6 @@ class ShowController implements ControllerProviderInterface
             return $app->json($file, 201);
         });
 
-        $shows->post('/{id}/ticket', function (Request $request, $id) use ($app){
-            $data = (object) $request->request->all();
-
-            $ticket = $app['show.ticket.service']->createShowTicket($data);
-            $tickets = $app['show.ticket.service']->getShowTicket($ticket->getId());
-
-            return $app->json($tickets, 201);
-        });
-
         $shows->post('/', function (Request $request) use ($app) {
             $data = (object) $request->request->all();
             $show = $app['show.service']->createShow($data);
@@ -56,11 +47,36 @@ class ShowController implements ControllerProviderInterface
             return $app->json($shows, 201);
         });
 
+        $shows->patch('/{id}', function (Request $request, $id) use ($app) {
+            $data = (object) $request->request->all();
+            $app['show.service']->updateShow($id, $data);
+
+            $show = $app['show.service']->getShows($id);
+
+            return $app->json($show, 201);
+        });
+
         $shows->delete('/{id}', function (Request $request, $id) use ($app) {
             $app['show.service']->deleteShow($id);
 
             return $app->json(array(), 204);
         });
+
+        $shows->post('/{id}/tickets', function (Request $request, $id) use ($app){
+            $data = (object) $request->request->all();
+
+            $ticket = $app['show.ticket.service']->createShowTicket($data, $id);
+            $tickets = $app['show.ticket.service']->getShowTicket($ticket->getId());
+
+            return $app->json($tickets, 201);
+        });
+
+        $shows->delete('/{id}/tickets/{ticket_id}', function (Request $request, $id, $ticket_id) use ($app) {
+            $app['show.ticket.service']->deleteShowTicket($id, $ticket_id);
+
+            return $app->json(array(), 204);
+        });
+
 
         return $shows;
 
