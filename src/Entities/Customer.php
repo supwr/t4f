@@ -20,9 +20,6 @@ class Customer
     /** @email @Column(type="string") **/
     private $email;
 
-    /** @pwd @Column(type="string") **/
-    private $pwd;
-
     /** @name @Column(type="boolean") **/
     private $active;
 
@@ -85,24 +82,6 @@ class Customer
     public function setEmail($email)
     {
         $this->email = $email;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getPwd()
-    {
-        return $this->pwd;
-    }
-
-    /**
-     * @param mixed $pwd
-     * @return Customer
-     */
-    public function setPwd($pwd)
-    {
-        $this->pwd = $pwd;
         return $this;
     }
 

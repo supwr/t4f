@@ -13,6 +13,8 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 $app->mount('/shows', new Controllers\ShowController());
 $app->mount('/tickets', new Controllers\TicketController());
 $app->mount('/venues', new Controllers\VenueController());
+$app->mount('/customers', new Controllers\CustomerController());
+$app->mount('/cart', new Controllers\CartController());
 
 $app->error(function (\Exception $e, Request $request, $code) use ($app) {
     $error = array("msg" => $e->getMessage(), 'status' => $code);

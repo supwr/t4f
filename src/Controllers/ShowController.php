@@ -53,7 +53,7 @@ class ShowController implements ControllerProviderInterface
 
             $show = $app['show.service']->getShows($id);
 
-            return $app->json($show, 201);
+            return $app->json($show, 200);
         });
 
         $shows->delete('/{id}', function (Request $request, $id) use ($app) {

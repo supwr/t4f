@@ -27,3 +27,9 @@ Outros requisitos:
 
 Para criar o banco de dados basta executar no mysql o arquivo **t4f.sql** que se encontra na raiz do projeto. 
 
+### Instalando REDIS
+
+```
+sudo apt-get update && sudo apt-get install redis-server -y
+```
+

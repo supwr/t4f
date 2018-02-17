@@ -12,6 +12,9 @@ use Services\ShowService;
 use Services\VenueService;
 use Services\ShowPhotoService;
 use Services\ShowTicketService;
+use Services\CustomerService;
+use Services\CartService;
+use Predis\Client;
 
 $app = new Application();
 $app->register(new ServiceControllerServiceProvider());
@@ -26,6 +29,14 @@ $app->before(function (Request $request) {
     }
 });
 
+$app['redis.service'] = function() {
+    $client = new Client();
+    return $client;
+};
+
+$app['cart.service'] = function($app) {
+    return new CartService($app['redis.service']);
+};
 
 $app['show.service'] = function ($app) {
     return new ShowService($app["orm.em"]);
@@ -41,6 +52,10 @@ $app['show.ticket.service'] = function ($app) {
 
 $app['venue.service'] = function ($app) {
     return new VenueService($app["orm.em"]);
+};
+
+$app['customer.service'] = function ($app) {
+    return new CustomerService($app["orm.em"]);
 };
 
 $app->register(new Silex\Provider\DoctrineServiceProvider, array(
