@@ -22,9 +22,18 @@ class CartController implements ControllerProviderInterface
             return $app->json($cart, 200);
         });
 
-        $cart->post('/', function (Request $request) use ($app) {
+        $cart->post('/items/add', function (Request $request) use ($app) {
             $data = (object) $request->request->all();
             $app['cart.service']->addCartItem($data);
+
+            $cart = $app['cart.service']->getCart($data->customer_id);
+
+            return $app->json($cart, 201);
+        });
+
+        $cart->post('/items/sub', function (Request $request) use ($app) {
+            $data = (object) $request->request->all();
+            $app['cart.service']->subCartItem($data);
 
             $cart = $app['cart.service']->getCart($data->customer_id);
 

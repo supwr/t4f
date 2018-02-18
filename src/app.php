@@ -35,7 +35,7 @@ $app['redis.service'] = function() {
 };
 
 $app['cart.service'] = function($app) {
-    return new CartService($app['redis.service']);
+    return new CartService($app['redis.service'], $app["orm.em"]);
 };
 
 $app['show.service'] = function ($app) {
