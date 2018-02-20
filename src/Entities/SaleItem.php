@@ -3,31 +3,49 @@
 namespace Entities;
 
 /**
- * @Entity @Table(name="cart_item")
+ * @Entity @Table(name="sale_item")
  **/
-class CartItem
+class SaleItem
 {
 
     /** @id @Column(type="integer") @GeneratedValue **/
     private $id;
 
     /**
-     * @ManyToOne(targetEntity="Cart")
-     * @JoinColumn(name="cart_id", referencedColumnName="id")
+     * @ManyToOne(targetEntity="Sale")
+     * @JoinColumn(name="sale_id", referencedColumnName="id")
      */
-    private $cart;
+    private $sale;
 
-    /** @unity_price @Column(type="decimal") **/
-    private $unity_price;
+    /**
+     * @ManyToOne(targetEntity="Show")
+     * @JoinColumn(name="show_id", referencedColumnName="id")
+     */
+    private $show;
 
-    /** @total_price @Column(type="decimal") **/
-    private $total_price;
-
-    /** @quantity @Column(type="integer") **/
-    private $quantity;
+    /** @price @Column(type="decimal") **/
+    private $price;
 
     /** @create_time @Column(type="datetime") **/
     private $create_time;
+
+    /**
+     * @return mixed
+     */
+    public function getShow()
+    {
+        return $this->show;
+    }
+
+    /**
+     * @param mixed $show
+     * @return SaleItem
+     */
+    public function setShow($show)
+    {
+        $this->show = $show;
+        return $this;
+    }
 
     /**
      * @return mixed
@@ -40,54 +58,18 @@ class CartItem
     /**
      * @return mixed
      */
-    public function getCart()
+    public function getSale()
     {
-        return $this->cart;
+        return $this->sale;
     }
 
     /**
-     * @param mixed $cart
-     * @return CartItem
+     * @param mixed $sale
+     * @return SaleItem
      */
-    public function setCart($cart)
+    public function setSale($sale)
     {
-        $this->cart = $cart;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getUnityPrice()
-    {
-        return $this->unity_price;
-    }
-
-    /**
-     * @param mixed $unity_price
-     * @return CartItem
-     */
-    public function setUnityPrice($unity_price)
-    {
-        $this->unity_price = $unity_price;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getTotalPrice()
-    {
-        return $this->total_price;
-    }
-
-    /**
-     * @param mixed $total_price
-     * @return CartItem
-     */
-    public function setTotalPrice($total_price)
-    {
-        $this->total_price = $total_price;
+        $this->sale = $sale;
         return $this;
     }
 

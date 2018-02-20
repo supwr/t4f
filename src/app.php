@@ -14,6 +14,7 @@ use Services\ShowPhotoService;
 use Services\ShowTicketService;
 use Services\CustomerService;
 use Services\CartService;
+use Services\CheckoutService;
 use Predis\Client;
 
 $app = new Application();
@@ -52,6 +53,10 @@ $app['show.ticket.service'] = function ($app) {
 
 $app['venue.service'] = function ($app) {
     return new VenueService($app["orm.em"]);
+};
+
+$app['checkout.service'] = function ($app) {
+    return new CheckoutService($app['redis.service'], $app["orm.em"]);
 };
 
 $app['customer.service'] = function ($app) {

@@ -11,9 +11,6 @@ class ShowTicket
     /** @id @Column(type="integer") @GeneratedValue **/
     private $id;
 
-    /** @name @Column(type="string") **/
-    private $name;
-
     /**
      * @ManyToOne(targetEntity="Show")
      * @JoinColumn(name="show_id", referencedColumnName="id")
@@ -38,24 +35,6 @@ class ShowTicket
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * @param mixed $name
-     * @return ShowTicket
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-        return $this;
     }
 
     /**

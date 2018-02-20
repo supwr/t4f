@@ -65,10 +65,19 @@ class ShowController implements ControllerProviderInterface
         $shows->post('/{id}/tickets', function (Request $request, $id) use ($app){
             $data = (object) $request->request->all();
 
-            $ticket = $app['show.ticket.service']->createShowTicket($data, $id);
+            $ticket = $app['show.ticket.service']->createShowTicket($id, $data);
             $tickets = $app['show.ticket.service']->getShowTicket($ticket->getId());
 
             return $app->json($tickets, 201);
+        });
+
+        $shows->patch('/{id}/tickets/{ticket_id}', function (Request $request, $id, $ticket_id) use ($app){
+            $data = (object) $request->request->all();
+
+            $app['show.ticket.service']->updateShowTicket($id, $ticket_id, $data);
+            $tickets = $app['show.ticket.service']->getShowTicket($ticket_id);
+
+            return $app->json($tickets, 200);
         });
 
         $shows->delete('/{id}/tickets/{ticket_id}', function (Request $request, $id, $ticket_id) use ($app) {
